@@ -40,4 +40,3 @@ def perform_transform(intermediate, transformation):
         raise ex
     else:
         return result
-    
