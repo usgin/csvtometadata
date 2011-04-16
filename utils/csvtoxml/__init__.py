@@ -1,5 +1,7 @@
 from lxml import etree
+import os
 
+CURRENT_XSLT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'xslt', 'starting-point.xslt')
 def create_intermediate_xml(row, row_num=None):
     '''
     row is an input dictionary.

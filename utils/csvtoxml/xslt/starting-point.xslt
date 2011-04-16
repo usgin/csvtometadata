@@ -9,17 +9,7 @@
     <xsl:output encoding="UTF-8" indent="yes"
                 omit-xml-declaration="no"/>
 
-    <xsl:template match="ns2:preMetadata">
-        <xsl:comment>
-            USGIN ISO 19139 geospatial dataset metadata record
-            based on the USGIN v1.1 Profile, by USGIN Standards and Protocols
-            Drafting Team. See http://lab.usgin.org/usgin-iso-metadata-v1-1 for a description of this profile.
-            Metadata sourced from: metadata_template_1_2_source_1_3.xsl
-        </xsl:comment>
-
-        <xsl:comment>
-            USGIN ISO 19139 geospatial dataset metadata record
-        </xsl:comment>
+    <xsl:template match="record">
         <gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd"
                          xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml"
                          xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -32,10 +22,7 @@
                 </gco:CharacterString>
             </gmd:language>
             <gmd:characterSet>
-                <gmd:MD_CharacterSetCode
-                        codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode"
-                        codeListValue="utf8">UTF-8
-                </gmd:MD_CharacterSetCode>
+                <gmd:MD_CharacterSetCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">UTF-8</gmd:MD_CharacterSetCode>
             </gmd:characterSet>
             <xsl:apply-templates select="resource_type"/>
             <gmd:contact>
@@ -67,10 +54,7 @@
                         </gmd:CI_Contact>
                     </gmd:contactInfo>
                     <gmd:role>
-                        <gmd:CI_RoleCode
-                                codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
-                                codeListValue="distributor">pointOfContact
-                        </gmd:CI_RoleCode>
+                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor">pointOfContact</gmd:CI_RoleCode>
                     </gmd:role>
                 </gmd:CI_ResponsibleParty>
             </gmd:contact>
@@ -114,10 +98,7 @@
                                         </xsl:otherwise>
                                     </xsl:choose>
                                     <gmd:dateType>
-                                        <gmd:CI_DateTypeCode
-                                                codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode"
-                                                codeListValue="publication">publication
-                                        </gmd:CI_DateTypeCode>
+                                        <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
                                     </gmd:dateType>
                                 </gmd:CI_Date>
                             </gmd:date>
@@ -134,10 +115,7 @@
                                         </gmd:CI_Contact>
                                     </gmd:contactInfo>
                                     <gmd:role>
-                                        <gmd:CI_RoleCode
-                                                codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
-                                                codeListValue="distributor">pointOfContact
-                                        </gmd:CI_RoleCode>
+                                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor">pointOfContact</gmd:CI_RoleCode>
                                     </gmd:role>
                                 </gmd:CI_ResponsibleParty>
                             </gmd:citedResponsibleParty>
@@ -150,10 +128,7 @@
                         </gco:CharacterString>
                     </gmd:abstract>
                     <gmd:status>
-                        <gmd:MD_ProgressCode
-                                codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ProgressCode"
-                                codeListValue="completed">completed
-                        </gmd:MD_ProgressCode>
+                        <gmd:MD_ProgressCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="completed">completed</gmd:MD_ProgressCode>
                     </gmd:status>
                     <xsl:apply-templates select="keywords_thematic_flag"/>
                     <xsl:apply-templates select="keywords_temporal_flag"/>
@@ -190,9 +165,6 @@
             <xsl:apply-templates select="resource_flag"/>
             <xsl:apply-templates select="data_quality_flag"/>
             <xsl:apply-templates select="resource_constraints_statement"/>
-            <xsl:comment>
-                ****************
-            </xsl:comment>
         </gmd:MD_Metadata>
     </xsl:template>
 
@@ -206,10 +178,7 @@
 
     <xsl:template match="resource_type">
         <gmd:hierarchyLevel>
-            <!-- MD_ScopeCode code names: {attribute, attributeType, collectionHardware, collectionSession, dataset, series, nonGeographicDataset, dimensionGroup, feature, featureType, propertyType, fieldSession, software, service, model, tile}. -->
-            <gmd:MD_ScopeCode
-                    codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
-                    codeListValue="">
+            <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="">
                 <xsl:attribute name="codeListValue">
                     <xsl:value-of select="//hierarchy_level"></xsl:value-of>
                 </xsl:attribute>
@@ -458,10 +427,7 @@
             <gmd:MD_Keywords>
                 <xsl:apply-templates select="//keywords_thematic"/>
                 <gmd:type>
-                    <gmd:MD_KeywordTypeCode
-                            codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
-                            codeListValue="theme">theme
-                    </gmd:MD_KeywordTypeCode>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
                 </gmd:type>
             </gmd:MD_Keywords>
         </gmd:descriptiveKeywords>
@@ -480,10 +446,7 @@
             <gmd:MD_Keywords>
                 <xsl:apply-templates select="//keywords_temporal"/>
                 <gmd:type>
-                    <gmd:MD_KeywordTypeCode
-                            codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
-                            codeListValue="temporal">temporal
-                    </gmd:MD_KeywordTypeCode>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="temporal">temporal</gmd:MD_KeywordTypeCode>
                 </gmd:type>
             </gmd:MD_Keywords>
         </gmd:descriptiveKeywords>
@@ -502,10 +465,7 @@
             <gmd:MD_Keywords>
                 <xsl:apply-templates select="//keywords_spatial"/>
                 <gmd:type>
-                    <gmd:MD_KeywordTypeCode
-                            codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode"
-                            codeListValue="place">place
-                    </gmd:MD_KeywordTypeCode>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place">place</gmd:MD_KeywordTypeCode>
                 </gmd:type>
             </gmd:MD_Keywords>
         </gmd:descriptiveKeywords>
@@ -534,9 +494,7 @@
                 </gmd:aggregateDataSetIdentifier>
                 <!-- (M-M) Association Type is mandatory.. -->
                 <gmd:associationType>
-                    <gmd:DS_AssociationTypeCode
-                            codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#DS_AssociationTypeCode"
-                            codeListValue="crossReference">
+                    <gmd:DS_AssociationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#DS_AssociationTypeCode" codeListValue="crossReference">
                         <xsl:value-of select="association_type_code"/>
                     </gmd:DS_AssociationTypeCode>
                 </gmd:associationType>
@@ -576,8 +534,6 @@
                         <gmd:extent>
                             <gml:TimePeriod>
                                 <gml:name></gml:name>
-                                <!-- USGIN requires the beginPosition and endPosition's frame property
-                                            to be defined. -->
                                 <gml:beginPosition frame="#ISO-8601">
                                     <xsl:value-of select="."/>
                                 </gml:beginPosition>
@@ -656,10 +612,7 @@
                 <xsl:apply-templates select="//distributor_contact_position_name"/>
                 <xsl:apply-templates select="//resource_distributor_responsibleparty_contact_flag"/>
                 <gmd:role>
-                    <gmd:CI_RoleCode
-                            codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
-                            codeListValue="distributor">distributor
-                    </gmd:CI_RoleCode>
+                    <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor">distributor</gmd:CI_RoleCode>
                 </gmd:role>
             </gmd:CI_ResponsibleParty>
         </gmd:distributorContact>
@@ -798,8 +751,6 @@
     <xsl:template match="//resource_access_instruction">
         <gmd:distributionOrderProcess>
             <gmd:MD_StandardOrderProcess>
-                <!-- (O-M) Ordering instructions - general instructions, terms and services
-                        provided by the distributor -->
                 <gmd:orderingInstructions>
                     <gco:CharacterString>
                         <xsl:value-of select="."/>
@@ -811,8 +762,7 @@
 
     <xsl:template match="//resource_url">
         <gmd:transferOptions>
-            <gmd:MD_DigitalTransferOptions id="TransOpt2612"> <!-- id is included in case this transfer options element is referenced in
-					a specific distributor- format- transfer options binding -->
+            <gmd:MD_DigitalTransferOptions>
                 <gmd:onLine>
                     <gmd:CI_OnlineResource>
                         <gmd:linkage>
@@ -841,10 +791,7 @@
                 <gmd:scope>
                     <gmd:DQ_Scope>
                         <gmd:level>
-                            <gmd:MD_ScopeCode
-                                    codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
-                                    codeListValue="dataset">dataset
-                            </gmd:MD_ScopeCode>
+                            <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
                         </gmd:level>
                     </gmd:DQ_Scope>
                 </gmd:scope>

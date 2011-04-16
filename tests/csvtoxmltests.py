@@ -3,6 +3,7 @@ from lxml import etree
 from lxml.etree import XSLTParseError
 from constants import *
 from csvtometadata.utils.csvtoxml import *
+from csvtometadata import *
 from csvtometadata.utils.readcsv import *
 
 class CsvToXmlTests(unittest.TestCase):
@@ -33,3 +34,9 @@ class CsvToXmlTests(unittest.TestCase):
         # Bad input transformer
         self.assertRaises(TypeError, perform_transform, intermediate=etree.parse(open(self.simple_xslt_input)), transform='what if I give you crap input')
     
+    def test_example_run(self):
+        result, report, output = validatecsv(VALID_FILE_PATH)
+        int = create_intermediate_xml(output[0])
+        trans = build_transform(CURRENT_XSLT_PATH)
+        result = perform_transform(int, trans)
+        print result
