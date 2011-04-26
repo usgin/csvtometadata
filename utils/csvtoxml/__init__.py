@@ -42,3 +42,16 @@ def perform_transform(intermediate, transformation):
         raise ex
     else:
         return result
+    
+def transform_valid_csv(valid_dict_reader, xslt_path):
+    result = list()
+    
+    transformation = build_transform(xslt_path)
+    row_num = 1
+    for row in valid_dict_reader:
+        intermediate = create_intermediate_xml(row, row_num)
+        out = perform_transform(intermediate, transformation)
+        result.append(str(out))
+        row_num = row_num + 1
+    return result
+        

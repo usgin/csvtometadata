@@ -33,7 +33,20 @@
                     <xsl:apply-templates select="metadata_contact_position_name"/>
                     <gmd:contactInfo>
                         <gmd:CI_Contact>
-                            <xsl:apply-templates select="metadata_phone_fax_flag"/>
+                        	<xsl:if test="metadata_contact_phone != ''">
+                        	<gmd:phone>
+                        		<gmd:CI_Telephone>
+                        			<xsl:apply-templates select="metadata_contact_phone"/>
+                        		</gmd:CI_Telephone>
+                        	</gmd:phone>
+                        	</xsl:if>
+                        	<xsl:if test="metadata_contact_fax != ''">
+                        	<gmd:phone>
+                        		<gmd:CI_Telephone>
+                        			<xsl:apply-templates select="metadata_contact_fax"/>
+                        		</gmd:CI_Telephone>
+                        	</gmd:phone>
+                        	</xsl:if>
                             <gmd:address>
                                 <gmd:CI_Address>
                                     <xsl:apply-templates select="metadata_contact_street_address"/>
@@ -64,10 +77,10 @@
                 </gco:DateTime>
             </gmd:dateStamp>
             <gmd:metadataStandardName>
-                <gco:CharacterString>ISO-USGIN</gco:CharacterString>
+                <gco:CharacterString>ISO-NAP-USGIN</gco:CharacterString>
             </gmd:metadataStandardName>
             <gmd:metadataStandardVersion>
-                <gco:CharacterString>1.2</gco:CharacterString>
+                <gco:CharacterString>1.1.4</gco:CharacterString>
             </gmd:metadataStandardVersion>
             <xsl:apply-templates select="resource_id"/>
             <gmd:identificationInfo>
@@ -109,8 +122,31 @@
                                     <xsl:apply-templates select="originator_contact_position_name"/>
                                     <gmd:contactInfo>
                                         <gmd:CI_Contact>
-                                            <xsl:apply-templates select="originator_contact_phone_fax_flag"/>
-                                            <xsl:apply-templates select="originator_contact_address_flag"/>
+                                            <xsl:if test="originator_contact_phone != ''">
+				                        	<gmd:phone>
+				                        		<gmd:CI_Telephone>
+				                        			<xsl:apply-templates select="originator_contact_phone"/>
+				                        		</gmd:CI_Telephone>
+				                        	</gmd:phone>
+				                        	</xsl:if>
+				                        	<xsl:if test="originator_contact_fax != ''">
+				                        	<gmd:phone>
+				                        		<gmd:CI_Telephone>
+				                        			<xsl:apply-templates select="originator_contact_fax"/>
+				                        		</gmd:CI_Telephone>
+				                        	</gmd:phone>
+				                        	</xsl:if>
+				                        	<xsl:if test="originator_contact_street_address != ''">
+                                            <gmd:address>
+                                            	<gmd:CI_Address>
+                                            		<xsl:apply-templates select="//originator_contact_street_address"/>
+									                <xsl:apply-templates select="//originator_contact_city"/>
+									                <xsl:apply-templates select="//originator_contact_state"/>
+									                <xsl:apply-templates select="//originator_contact_zip"/>
+									                <xsl:apply-templates select="//originator_contact_email"/>
+                                            	</gmd:CI_Address>
+                                            </gmd:address>
+                                            </xsl:if>
                                             <xsl:apply-templates select="originator_contact_url"/>
                                         </gmd:CI_Contact>
                                     </gmd:contactInfo>
@@ -130,9 +166,36 @@
                     <gmd:status>
                         <gmd:MD_ProgressCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="completed">completed</gmd:MD_ProgressCode>
                     </gmd:status>
-                    <xsl:apply-templates select="keywords_thematic_flag"/>
-                    <xsl:apply-templates select="keywords_temporal_flag"/>
-                    <xsl:apply-templates select="keywords_spatial_flag"/>
+                    <xsl:if test="keywords_thematic != ''">
+                    <gmd:descriptiveKeywords>
+                    	<gmd:MD_Keywords>
+                    		<xsl:apply-templates select="//keywords_thematic"/>
+                    		<gmd:type>
+                    			<gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    		</gmd:type>
+                    	</gmd:MD_Keywords>
+                    </gmd:descriptiveKeywords>
+                    </xsl:if>
+                    <xsl:if test="keywords_temporal != ''">
+                    <gmd:descriptiveKeywords>
+                    	<gmd:MD_Keywords>
+                    		<xsl:apply-templates select="//keywords_temporal"/>
+                    		<gmd:type>
+                    			<gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="temporal">temporal</gmd:MD_KeywordTypeCode>
+                    		</gmd:type>
+                    	</gmd:MD_Keywords>
+                    </gmd:descriptiveKeywords>
+                    </xsl:if>
+                    <xsl:if test="keywords_spatial != ''">
+                    <gmd:descriptiveKeywords>
+                    	<gmd:MD_Keywords>
+                    		<xsl:apply-templates select="//keywords_spatial"/>
+                    		<gmd:type>
+                    			<gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place">place</gmd:MD_KeywordTypeCode>
+                    		</gmd:type>
+                    	</gmd:MD_Keywords>
+                    </gmd:descriptiveKeywords>
+                    </xsl:if>
                     <xsl:apply-templates select="related_resource"/>
                     <xsl:apply-templates select="resource_languages"/>
                     <gmd:extent>
@@ -159,11 +222,94 @@
                         </gmd:EX_Extent>
                     </gmd:extent>
                     <xsl:apply-templates select="temporal_start_date"/>
-                    <xsl:apply-templates select="extent_flag"/>
+                    <xsl:if test="interval_depth_bottom">
+                    <gmd:extent>
+			            <gmd:EX_Extent>
+			                <gmd:verticalElement>
+			                    <gmd:EX_VerticalExtent>
+			                        <xsl:apply-templates select="//interval_depth_bottom"/>
+			                        <xsl:apply-templates select="//interval_depth_top"/>
+			                        <xsl:apply-templates select="//surface_elevation"/>
+			                    </gmd:EX_VerticalExtent>
+			                </gmd:verticalElement>
+			            </gmd:EX_Extent>
+			        </gmd:extent>
+                    </xsl:if>
                 </gmd:MD_DataIdentification>
             </gmd:identificationInfo>
-            <xsl:apply-templates select="resource_flag"/>
-            <xsl:apply-templates select="data_quality_flag"/>
+            <xsl:if test="(distributor_contact_person_name != '') or (distributor_contact_org_name != '') or (distributor_contact_position_name != '') or (resource_url != '')">
+            <gmd:distributionInfo>
+            	<gmd:MD_Distribution>
+            		<xsl:if test="(distributor_contact_person_name != '') or (distributor_contact_org_name != '') or (distributor_contact_position_name != '') or (resource_access_instructions != '')">
+            		<gmd:distributor>
+	            		<gmd:MD_Distributor>
+	            			<gmd:distributorContact>
+	            				<gmd:CI_ResponsibleParty>
+	            					<xsl:apply-templates select="//distributor_contact_person_name"/>
+	            					<xsl:apply-templates select="//distributor_contact_org_name"/>
+	            					<xsl:apply-templates select="//distributor_contact_position_name"/>
+	            					<gmd:contactInfo>
+	            						<gmd:CI_Contact>
+	           								<xsl:if test="distributor_contact_phone != ''">
+				                        	<gmd:phone>
+				                        		<gmd:CI_Telephone>
+				                        			<xsl:apply-templates select="distributor_contact_phone"/>
+				                        		</gmd:CI_Telephone>
+				                        	</gmd:phone>
+				                        	</xsl:if>
+				                        	<xsl:if test="distributor_contact_fax != ''">
+				                        	<gmd:phone>
+				                        		<gmd:CI_Telephone>
+				                        			<xsl:apply-templates select="distributor_contact_fax"/>
+				                        		</gmd:CI_Telephone>
+				                        	</gmd:phone>
+				                        	</xsl:if>
+				                        	<xsl:if test="distributor_contact_street_address != ''">
+	                                        <gmd:address>
+	                                           	<gmd:CI_Address>
+	                                           		<xsl:apply-templates select="//distributor_contact_street_address"/>
+									                <xsl:apply-templates select="//distributor_contact_city"/>
+									                <xsl:apply-templates select="//distributor_contact_state"/>
+									                <xsl:apply-templates select="//distributor_contact_zip"/>
+									                <xsl:apply-templates select="//distributor_contact_email"/>
+	                                           	</gmd:CI_Address>
+	                                        </gmd:address>
+	                                        </xsl:if>
+	                                        <xsl:apply-templates select="distributor_contact_url"/>
+	            						</gmd:CI_Contact>
+	            					</gmd:contactInfo>
+	            					<gmd:role>
+	            						<gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor">distributor</gmd:CI_RoleCode>
+	            					</gmd:role>
+	            				</gmd:CI_ResponsibleParty>
+	            			</gmd:distributorContact>
+	            			<xsl:apply-templates select="//resource_access_instructions"/>
+	            		</gmd:MD_Distributor>
+            		</gmd:distributor>
+            		</xsl:if>
+            		<xsl:apply-templates select="//resource_url"/>
+            	</gmd:MD_Distribution>
+            </gmd:distributionInfo>
+            </xsl:if>
+            <xsl:if test="(resource_quality_statement != '') or (resource_lineage_statement != '')">
+            <gmd:dataQualityInfo>
+	            <gmd:DQ_DataQuality>
+	                <gmd:scope>
+	                    <gmd:DQ_Scope>
+	                        <gmd:level>
+	                            <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+	                        </gmd:level>
+	                    </gmd:DQ_Scope>
+	                </gmd:scope>
+					<xsl:if test="resource_quality_statement != ''">
+	                <xsl:apply-templates select="//resource_quality_statement"/>
+	                </xsl:if>
+	                <xsl:if test="resource_lineage_statement != ''">
+	                <xsl:apply-templates select="//resource_lineage_statement"/>
+	                </xsl:if>
+	            </gmd:DQ_DataQuality>
+	        </gmd:dataQualityInfo>
+            </xsl:if>
             <xsl:apply-templates select="resource_constraints_statement"/>
         </gmd:MD_Metadata>
     </xsl:template>
@@ -180,14 +326,21 @@
         <gmd:hierarchyLevel>
             <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="">
                 <xsl:attribute name="codeListValue">
-                    <xsl:value-of select="//hierarchy_level"></xsl:value-of>
+                	<xsl:text>dataset</xsl:text>
                 </xsl:attribute>
-                <xsl:value-of select="//hierarchy_level"></xsl:value-of>
+                <xsl:choose>
+                <xsl:when test="(.='') or (.='Missing')">
+                	<xsl:text>Dataset</xsl:text>
+               	</xsl:when>
+               	<xsl:otherwise>
+                	<xsl:value-of select="."></xsl:value-of>
+               	</xsl:otherwise>
+                </xsl:choose>
             </gmd:MD_ScopeCode>
         </gmd:hierarchyLevel>
         <gmd:hierarchyLevelName>
             <gco:CharacterString>
-                <xsl:value-of select="."/>
+                <xsl:text>Dataset</xsl:text>
             </gco:CharacterString>
         </gmd:hierarchyLevelName>
     </xsl:template>
@@ -487,7 +640,7 @@
                     <gmd:MD_Identifier>
                         <gmd:code>
                             <gco:CharacterString>
-                                <xsl:value-of select="identifier_code"/>
+                                <xsl:value-of select="."/>
                             </gco:CharacterString>
                         </gmd:code>
                     </gmd:MD_Identifier>
@@ -495,7 +648,7 @@
                 <!-- (M-M) Association Type is mandatory.. -->
                 <gmd:associationType>
                     <gmd:DS_AssociationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#DS_AssociationTypeCode" codeListValue="crossReference">
-                        <xsl:value-of select="association_type_code"/>
+						<xsl:text>crossReference</xsl:text>
                     </gmd:DS_AssociationTypeCode>
                 </gmd:associationType>
             </gmd:MD_AggregateInformation>
@@ -767,7 +920,7 @@
                     <gmd:CI_OnlineResource>
                         <gmd:linkage>
                             <gmd:URL>
-                                <xsl:value-of select="url"/>
+                                <xsl:value-of select="."/>
                             </gmd:URL>
                         </gmd:linkage>
                         <xsl:apply-templates select="name"/>
@@ -795,8 +948,12 @@
                         </gmd:level>
                     </gmd:DQ_Scope>
                 </gmd:scope>
+                <xsl:if test="resource_quality_statement != ''">
                 <xsl:apply-templates select="//resource_quality_statement"/>
+                </xsl:if>
+                <xsl:if test="resource_lineage_statement != ''">
                 <xsl:apply-templates select="//resource_lineage_statement"/>
+                </xsl:if>
             </gmd:DQ_DataQuality>
         </gmd:dataQualityInfo>
     </xsl:template>

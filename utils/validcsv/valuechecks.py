@@ -124,7 +124,14 @@ def fix_length_unit(input):
         return result
     else:
         return None
-
+    
+def fix_uuid(input):
+    result = str(uuid.uuid4())
+    if is_valid_something(result):
+        return result
+    else:
+        return None
+    
 # Method for assigning default values
 def get_default_value(fieldname):
     result = None

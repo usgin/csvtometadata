@@ -8,3 +8,4 @@ INVALID_CONTENT_FILE_PATH = os.path.join(os.path.abspath(os.path.dirname(__file_
 TEMPLATE_RECORD_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'templates', 'min-template.xml')
 SIMPLE_TRANSFORMER_FILE_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'examples', 'simple-transformer.xslt')
 SIMPLE_TRANSFORM_INPUT_FILE_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'examples', 'simple-transform-input.xml')
+OUTPUT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'outputs')

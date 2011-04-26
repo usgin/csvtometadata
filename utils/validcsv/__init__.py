@@ -26,7 +26,8 @@ FIELD_VALIDATION_RULES = {'title': (is_valid_something, None, None),
                           'originator_contact_person_name': (is_valid_something, None, 'originator_contact'), 
                           'originator_contact_position_name': (is_valid_something, None, 'originator_contact'),
                           'originator_contact_email': (is_valid_email, None, 'originator_contact_method'), 
-                          'originator_contact_phone': (is_valid_phone, None, 'originator_contact_method'),}
+                          'originator_contact_phone': (is_valid_phone, None, 'originator_contact_method'),
+                          'metadata_uuid': (is_valid_something, fix_uuid, None),}
 
 OPTIONAL_FIELD_VALIDATION_RULES = {'originator_contact_fax': (is_valid_phone, None, None),
                                    'originator_contact_url': (is_valid_url, None, None),
@@ -58,9 +59,9 @@ def validate(reader):
     Attempts to validate a csv.DictReader object.
     Within bounds, it will try and adjust the original to be valid
     
-    Always returns two variables
-    If the DictReader can be validated: True, ValidDictReader
-    If not: False, Report
+    Always returns three variables
+    If the DictReader can be validated: True, Report, List of valid dictionaries
+    If not: False, Report, empty list
     
     The Report will always be a list of strings describing problems in the reader
     '''

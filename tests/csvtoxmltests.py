@@ -34,9 +34,15 @@ class CsvToXmlTests(unittest.TestCase):
         # Bad input transformer
         self.assertRaises(TypeError, perform_transform, intermediate=etree.parse(open(self.simple_xslt_input)), transform='what if I give you crap input')
     
-    def test_example_run(self):
-        result, report, output = validatecsv(VALID_FILE_PATH)
-        int = create_intermediate_xml(output[0])
-        trans = build_transform(CURRENT_XSLT_PATH)
-        result = perform_transform(int, trans)
-        print result
+    #def test_example_run(self):
+    #    result, report, output = validatecsv(VALID_FILE_PATH)
+    #    int = create_intermediate_xml(output[0])
+    #    trans = build_transform(CURRENT_XSLT_PATH)
+    #    result = perform_transform(int, trans)
+    #    print result
+    
+    def test_transform_valid_csv(self):
+        validation_output = list(csv_to_dict_reader(VALID_FILE_PATH))
+        print transform_valid_csv(validation_output, CURRENT_XSLT_PATH)
+        # Once the XSLT is working, this should assert equal against a valid output file for this input file.
+        #self.assertEqual(transform_valid_csv(validation_output, CURRENT_XSLT_PATH), valid_output_file)
