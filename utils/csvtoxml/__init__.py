@@ -2,6 +2,7 @@ from lxml import etree
 import os
 
 CURRENT_XSLT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'xslt', 'starting-point.xslt')
+
 def create_intermediate_xml(row, row_num=None):
     '''
     row is an input dictionary.
@@ -35,6 +36,8 @@ def build_transform(xslt_path):
     else:
         return transform
 
+PARSED_XSLT = build_transform(CURRENT_XSLT_PATH)
+
 def perform_transform(intermediate, transformation):
     try:
         result = transformation(intermediate)
@@ -42,7 +45,17 @@ def perform_transform(intermediate, transformation):
         raise ex
     else:
         return result
+
+def transform_valid_row(valid_row, xslt_path=None):
+    if xslt_path == None:
+        transformation = PARSED_XSLT
+    else:
+        transformation = build_transform(xslt_path)
     
+    intermediate = create_intermediate_xml(valid_row)
+    result = perform_transform(intermediate, transformation)
+    return str(result)
+        
 def transform_valid_csv(valid_dict_reader, xslt_path):
     result = list()
     

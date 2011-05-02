@@ -53,6 +53,94 @@ CONDITIONAL_SET_LIMITS = {'originator_contact': (3, 'One of [originator_contact_
                           'originator_contact_method': (2, 'One of [originator_contact_email, originator_contact_phone] must be populated.'),
                           'distributor_contact': (3, 'One of [distributor_contact_org_name, distributor_contact_person_name, distributor_contact_position_name] must be populated.'),
                           'distributor_contact_method': (2, 'One of [distributor_contact_email, distributor_contact_phone] must be populated.')}
+def validate_fields(reader):
+    report = list()
+    
+    # Check that required fields are present
+    if not required_fields_are_present(reader):
+        result = False
+        missing_fields = fields_missing(reader, required=True)
+        for missing in missing_fields:
+            report.append('The required field: ' + missing + ' is not present.')
+        extra_fields = extra_fields_present(reader)
+        if len(extra_fields) > 0:
+            report.append('The following extra fields were found in your document. Should any of them be renamed?')
+            for extra in extra_fields:
+                report.append('\t' + extra)
+        
+        # Do not bother with any more validation
+        return False, report
+    else:
+        return True, report
+
+def validate_row(index, row, fields):
+    result = True
+    report = list()
+    conditional_failures = dict()
+    optional_condition_failures = dict()
+    for field in fields:
+        if field in FIELD_VALIDATION_RULES:
+            validation = FIELD_VALIDATION_RULES[field]
+            # Use tuple in FIELD_VALIDATION_RULES to validate the row's field content
+            if not validation[0](row[field]):
+                # Did not validate.
+                if validation[2] != None:
+                    # Content is part of a conditional set
+                    try:
+                        # Increment the counter on the conditional set
+                        conditional_failures[validation[2]] = conditional_failures[validation[2]] + 1
+                    except KeyError:
+                        # Start the counter on the conditional set
+                        conditional_failures[validation[2]] = 1
+                else:
+                    if validation[1] != None:
+                        # A fix method is given, try to repair
+                        repaired = validation[1](row[field])
+                        if repaired == None:
+                            # Could not be fixed.
+                            result = False
+                            report.append('ERROR: Row #' + str(index) + ': ' + field + ' contains invalid content which could not be repaired.')
+                        else:
+                            # Content was fixed.
+                            row[field] = repaired
+                    elif get_default_value(field) != None:
+                        # There is a default value available
+                        row[field] = get_default_value(field)
+                    else:
+                        # There is no method for fixing this content
+                        result = False
+                        report.append('ERROR: Row #' + str(index) + ': ' + field + ' contains invalid content.')
+        # Should find a way to do this and satisfy DRY.......
+        if field in OPTIONAL_FIELD_VALIDATION_RULES:
+            validation = OPTIONAL_FIELD_VALIDATION_RULES[field]
+            if not validation[0](row[field]):
+                if validation[2] != None:
+                    try:
+                        optional_condition_failures[validation[2]] = optional_condition_failures[validation[2]] + 1
+                    except KeyError:
+                        optional_condition_failures[validation[2]] = 1
+                else:
+                    if validation[1] != None:
+                        repaired = validation[1](row[field])
+                        if repaired == None:
+                            report.append('WARNING: Row #' + str(index) + ': ' + field + ' contains invalid content which could not be repaired.')
+                        else:
+                            row[field] = repaired
+                    elif get_default_value(field) != None:
+                        row[field] = get_default_value(field)
+                    else:
+                        report.append('WARNING: Row #' + str(index) + ': ' + field + ' contains invalid content.')
+    for conditional_set in conditional_failures:
+        if conditional_failures[conditional_set] >= CONDITIONAL_SET_LIMITS[conditional_set][0]:
+            # A conditional set was failed entirely
+            result = False
+            report.append('ERROR: Row #' + str(index) + ': ' + CONDITIONAL_SET_LIMITS[conditional_set][1])
+    for optional_condition_set in optional_condition_failures:
+        if optional_condition_failures[optional_condition_set] >= CONDITIONAL_SET_LIMITS[conditional_set][0]:
+            # An optional conditional set was failed entirely
+            report.append('WARNING: Row #' + str(index) + ': ' + CONDITIONAL_SET_LIMITS[optional_condition_set][1])
+            
+    return result, report
 
 def validate(reader):
     '''
