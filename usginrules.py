@@ -1,4 +1,4 @@
-from xmlvalidator import ExistsRule, ValidUrlRule, ValueInListRule, ConditionalRule, ContentMatchesExpressionRule, AnyOfRule
+from xmlvalidator import ExistsRule, ValueInListRule, ConditionalRule, ContentMatchesExpressionRule, AnyOfRule
 
 class UsginMinRules(list):
     def __init__(self):

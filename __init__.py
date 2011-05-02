@@ -1,11 +1,14 @@
-import os, uuid, glob
+import os, uuid, glob, urllib2
 from StringIO import StringIO
 from lxml import etree
-from xmlvalidator import record_is_valid, ValidationException
-from usginrules import UsginMinRules
+from xmlvalidator import *
 from utils.validcsv import validate
 from utils.readcsv import csv_to_dict_reader
 from utils.csvtoxml import transform_valid_csv, CURRENT_XSLT_PATH
+
+rule_string = urllib2.urlopen('http://services.usgin.org/validation/ruleset/1/list/').read()
+exec rule_string
+minimum_rules = UsginMinRules()
 
 ns = {'gmd': 'http://www.isotc211.org/2005/gmd',
       'srv': 'http://www.isotc211.org/2005/srv',
@@ -46,7 +49,7 @@ def save_metadata(record_to_save, place_to_save_it):
     
 def validate_output(file):
     try:
-        result, report = record_is_valid(file, UsginMinRules())
+        result, report = record_is_valid(file, minimum_rules)
     except ValidationException, ex:
         raise ex
     if result == False:
