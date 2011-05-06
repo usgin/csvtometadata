@@ -79,7 +79,7 @@ def transformcsv(csv_filepath, output_folder_path):
     if result == False:
         for item in report:
             print item
-            return
+            return report
     
     # Setup output CSV files: One for valid rows, one for invalid rows
     fields = reader.fieldnames
@@ -111,6 +111,8 @@ def transformcsv(csv_filepath, output_folder_path):
         for item in row_report:
             final_report.append(item)
         
-    # Print the report
+    # Print the report - No Warnings
     for item in final_report:
-        print item
+        if not item.startswith('WARNING'): print item
+        
+    return final_report

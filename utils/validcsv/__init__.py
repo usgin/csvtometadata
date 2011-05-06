@@ -26,7 +26,7 @@ FIELD_VALIDATION_RULES = {'title': (is_valid_something, None, None),
                           'originator_contact_person_name': (is_valid_something, None, 'originator_contact'), 
                           'originator_contact_position_name': (is_valid_something, None, 'originator_contact'),
                           'originator_contact_email': (is_valid_email, None, 'originator_contact_method'), 
-                          'originator_contact_phone': (is_valid_phone, None, 'originator_contact_method'),
+                          'originator_contact_phone': (is_valid_something, None, 'originator_contact_method'),
                           'metadata_uuid': (is_valid_something, fix_uuid, None),}
 
 OPTIONAL_FIELD_VALIDATION_RULES = {'originator_contact_fax': (is_valid_phone, None, None),
@@ -139,7 +139,10 @@ def validate_row(index, row, fields):
         if optional_condition_failures[optional_condition_set] >= CONDITIONAL_SET_LIMITS[conditional_set][0]:
             # An optional conditional set was failed entirely
             report.append('WARNING: Row #' + str(index) + ': ' + CONDITIONAL_SET_LIMITS[optional_condition_set][1])
-            
+    
+    print "CSV Validation - Row #" + str(index) + ": " + str(result)
+    if not result:
+        for item in report: print item        
     return result, report
 
 def validate(reader):
