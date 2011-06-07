@@ -22,7 +22,7 @@ def validatecsv(filepath):
     reader = csv_to_dict_reader(filepath)
     return validate(reader)
 
-def save_metadata(record_to_save, place_to_save_it):
+def save_metadata(record_to_save, place_to_save_it, index):
     # Record should have a file identifier - find it.
     try:
         file_ish = StringIO(record_to_save)
@@ -36,11 +36,13 @@ def save_metadata(record_to_save, place_to_save_it):
     #    id = str(uuid.uuid4())
     #else:
     #    id = fileId.text
-        
-    filepath = os.path.join(place_to_save_it, fileId.text + '.xml')
-    
-    try:
+    try:    
+        filepath = os.path.join(place_to_save_it, fileId.text + '.xml')
         file = open(filepath, 'w')
+    except IOError:
+        filepath = os.path.join(place_to_save_it, str(index) + '.xml')
+        file = open(filepath, 'w')
+    try:
         file.write(record_to_save)
         file.close()
     except Exception, ex:
@@ -101,7 +103,7 @@ def transformcsv(csv_filepath, output_folder_path):
             # Create XML for this row. save_metadata method automatically validates the saved file.
             invalid_xml_path = os.path.join(output_folder_path, 'invalid-xml')
             if not os.path.exists(invalid_xml_path): os.makedirs(invalid_xml_path)
-            xml_is_valid, xml_filepath = save_metadata(transform_valid_row(row), invalid_xml_path)
+            xml_is_valid, xml_filepath = save_metadata(transform_valid_row(row), invalid_xml_path, index)
             
             # Move the XML to the "valid" folder if it was...
             if xml_is_valid:
