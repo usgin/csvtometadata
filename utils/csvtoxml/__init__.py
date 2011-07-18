@@ -14,13 +14,19 @@ def create_intermediate_xml(row, row_num=None):
         record.attrib['rowId'] = str(row_num)
     for field in row:
         content = row[field]
+        # Remove wierd characters (I don't completely understand the ord() function yet)
+        content = ''.join(char if ord(char) < 128 else '' for char in content)
+        
         if content.find('|') != -1:
             # There are pipe delimited things in here
             for item in content.split('|'):
                 etree.SubElement(record, field).text = item.strip()
         else:
-            etree.SubElement(record, field).text = row[field].strip()
-    
+            try:
+                etree.SubElement(record, field).text = content.strip()
+            except ValueError, err:
+                pass
+            
     return record
 
 def build_transform(xslt_path):
