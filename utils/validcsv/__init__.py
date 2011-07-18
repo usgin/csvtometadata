@@ -136,7 +136,7 @@ def validate_row(index, row, fields):
             result = False
             report.append('ERROR: Row #' + str(index) + ': ' + CONDITIONAL_SET_LIMITS[conditional_set][1])
     for optional_condition_set in optional_condition_failures:
-        if optional_condition_failures[optional_condition_set] >= CONDITIONAL_SET_LIMITS[conditional_set][0]:
+        if optional_condition_failures[optional_condition_set] >= CONDITIONAL_SET_LIMITS[optional_condition_set][0]:
             # An optional conditional set was failed entirely
             report.append('WARNING: Row #' + str(index) + ': ' + CONDITIONAL_SET_LIMITS[optional_condition_set][1])
     
