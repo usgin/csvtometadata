@@ -36,7 +36,7 @@ def is_valid_email(input):
 
 def is_valid_phone(input):
     # Phone is valid if it matches a RegEx meant to capture phone numbers
-    phone_regex = '^[0-9]?-?\(?[0-9]{3}\)?[-\ ]?[0-9]{3}-?[0-9]{4}$'
+    phone_regex = '^\+?[0-9]?-?\(?[0-9]{3}\)?[-\ ]?[0-9]{3}-?[0-9]{4}$'
     return matches_expression(input, phone_regex)
 
 def is_valid_coordinate(input):
