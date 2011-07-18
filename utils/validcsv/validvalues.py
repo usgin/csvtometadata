@@ -122,4 +122,6 @@ COMMON_DATE_INPUT_FORMATS = ['%m/%d/%Y',
                '%m/%Y',
                '%b. %Y',
                '%b %Y',
-               '%B %Y']
+               '%B %Y',
+               '%Y',
+               '%Y-%m-%d']
