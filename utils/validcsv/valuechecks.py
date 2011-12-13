@@ -103,6 +103,10 @@ def fix_date(input):
                 return result
     return None
 
+def input_todays_date(input):
+        today = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+        return datetime.strptime(today, "%Y-%m-%d %H:%M:%S").isoformat()
+    
 def fix_language_code(input):
     result = input.lower()
     

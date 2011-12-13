@@ -27,7 +27,8 @@ FIELD_VALIDATION_RULES = {'title': (is_valid_something, None, None),
                           'originator_contact_position_name': (is_valid_something, None, 'originator_contact'),
                           'originator_contact_email': (is_valid_email, None, 'originator_contact_method'), 
                           'originator_contact_phone': (is_valid_something, None, 'originator_contact_method'),
-                          'metadata_uuid': (is_valid_something, fix_uuid, None),}
+                          'metadata_uuid': (is_valid_something, fix_uuid, None),
+                          'metadata_date': (is_valid_date, input_todays_date, None),}
 
 OPTIONAL_FIELD_VALIDATION_RULES = {'originator_contact_fax': (is_valid_phone, None, None),
                                    'originator_contact_url': (is_valid_url, None, None),
@@ -42,8 +43,7 @@ OPTIONAL_FIELD_VALIDATION_RULES = {'originator_contact_fax': (is_valid_phone, No
                                    'distributor_contact_email': (is_valid_email, None, 'distributor_contact_method'),
                                    'distributor_contact_phone': (is_valid_phone, None, 'distributor_contact_method'),
                                    'distributor_contact_fax': (is_valid_phone, None, None),
-                                   'distributor_contact_url': (is_valid_url, None, None),
-                                   'metadata_date': (is_valid_date, fix_date, None),
+                                   'distributor_contact_url': (is_valid_url, None, None),                                   
                                    'metadata_language': (is_valid_language_code, fix_language_code, None),
                                    'metadata_contact_phone': (is_valid_phone, None, None),
                                    'metadata_contact_fax': (is_valid_phone, None, None),
