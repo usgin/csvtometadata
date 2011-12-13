@@ -136,7 +136,7 @@
 				                        		</gmd:CI_Telephone>
 				                        	</gmd:phone>
 				                        	</xsl:if>
-				                        	<xsl:if test="originator_contact_street_address != ''">
+				                        	<xsl:if test="originator_contact_street_address != '' or originator_contact_email != ''">
                                             <gmd:address>
                                             	<gmd:CI_Address>
                                             		<xsl:apply-templates select="//originator_contact_street_address"/>
