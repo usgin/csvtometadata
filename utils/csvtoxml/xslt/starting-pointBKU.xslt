@@ -399,7 +399,7 @@
 											</gmd:role>
 										</gmd:CI_ResponsibleParty>
 								</gmd:distributorContact>
-								<xsl:apply-templates select="//resource_access_instruction"/>
+								<xsl:apply-templates select="//resource_access_instructions"/>
 							</gmd:MD_Distributor>
 						</gmd:distributor>
 					</xsl:if>
@@ -873,13 +873,11 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	<xsl:template match="//resource_flag">
+	<xsl:template match="resource_flag">
 		<gmd:distributionInfo>
 			<gmd:MD_Distribution>
 				<xsl:apply-templates select="//resource_distributor_flag"/>
 				<xsl:apply-templates select="//resource_url"/>
-				<xsl:apply-templates select="//resource_access_instruction"/>
-				
 			</gmd:MD_Distribution>
 		</gmd:distributionInfo>
 	</xsl:template>
@@ -1047,11 +1045,18 @@
 				</gmd:linkage>
 			</gmd:CI_OnlineResource>
 		</gmd:onlineResource>
-		
-	
 	</xsl:template>
-	
-		
+	<xsl:template match="//resource_access_instruction">
+		<gmd:distributionOrderProcess>
+			<gmd:MD_StandardOrderProcess>
+				<gmd:orderingInstructions>
+					<gco:CharacterString>
+						<xsl:value-of select="."/>
+					</gco:CharacterString>
+				</gmd:orderingInstructions>
+			</gmd:MD_StandardOrderProcess>
+		</gmd:distributionOrderProcess>
+	</xsl:template>
 	<xsl:template match="//resource_url">
 		<gmd:transferOptions>
 			<gmd:MD_DigitalTransferOptions>
@@ -1068,30 +1073,6 @@
 			</gmd:MD_DigitalTransferOptions>
 		</gmd:transferOptions>
 	</xsl:template>
-	
-		<xsl:template match="//resource_access_instruction">
-		<gmd:distributionOrderProcess>
-						<gmd:MD_StandardOrderProcess>
-							<gmd:fees>
-								<gco:CharacterString></gco:CharacterString>
-							</gmd:fees>
-							<!-- (O-M) Ordering instructions - general instructions,terms and services provided by the distributor -->
-							<gmd:orderingInstructions>
-								<gco:CharacterString>
-								<xsl:value-of select="."/>
-								</gco:CharacterString>
-							</gmd:orderingInstructions>
-							<gmd:turnaround>
-								<gco:CharacterString></gco:CharacterString>
-							</gmd:turnaround>
-						</gmd:MD_StandardOrderProcess>
-					</gmd:distributionOrderProcess>
-			
-		</xsl:template>
-	
-	
-	
-	
 	<xsl:template match="name">
 		<gmd:name>
 			<gco:CharacterString>
