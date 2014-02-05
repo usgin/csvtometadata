@@ -12,7 +12,7 @@ REQUIRED_FIELDS = ['title',
                    'metadata_uuid',]
 
 ONE_OF_FIELDS = [['originator_contact_org_name', 'originator_contact_person_name', 'originator_contact_position_name'],
-                 ['originator_contact_email', 'originator_contact_phone']]
+                 ['originator_contact_email', 'originator_contact_phone'], ['resource_url','resource_access_instruction']]
 
 OPTIONAL_FIELDS = ['resource_type',
                    'keywords_thematic',
@@ -66,8 +66,8 @@ OPTIONAL_ONE_OF_FIELDS = [['datum_elevation', 'surface_elevation'],
 DEFAULT_VALUES = {'resource_type': 'Missing',
                   'resource_languages': 'eng',
                   'metadata_language': 'eng',
-                  'metadata_standardName': 'ISO-NAP-USGIN',
-                  'metadata_standardVersion': '1.1.4',}
+                  'metadata_standardName': 'ISO-USGIN',
+                  'metadata_standardVersion': '1.2',}
 
 VALID_LANGUAGE_CODES = ['aar','abk','ace','ach','ada','ady','afa','afh','afr','ain','aka','akk','ale','alg','alt','amh','ang','anp',
                        'apa','ara','arc','arg','arn','arp','art','arw','asm','ast','ath','aus','ava','ave','awa','aym','aze','bad',
@@ -116,6 +116,7 @@ COMMON_DATE_INPUT_FORMATS = ['%m/%d/%Y',
                '%B %d %Y',
                '%B %d, %Y',
                '%m-%d-%Y',
+			   '%YT%H:%M:%S',
                '%m-%d-%YT%H:%M',
                '%m-%d-%YT%H:%M:%S',
                '%m-%d-%Y %H:%M',
