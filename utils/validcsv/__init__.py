@@ -28,7 +28,9 @@ FIELD_VALIDATION_RULES = {'title': (is_valid_something, None, None),
                           'originator_contact_email': (is_valid_email, None, 'originator_contact_method'), 
                           'originator_contact_phone': (is_valid_something, None, 'originator_contact_method'),
                           'metadata_uuid': (is_valid_something, fix_uuid, None),
-                          'metadata_date': (is_valid_date, input_todays_date, None),}
+                          'metadata_date': (is_valid_date, input_todays_date, None),
+                          'resource_url': (is_valid_url, None, 'resource_url_method'),
+			  'resource_access_instruction': (is_valid_something, None, 'resource_url_method'),}
 
 OPTIONAL_FIELD_VALIDATION_RULES = {'originator_contact_fax': (is_valid_phone, None, None),
                                    'originator_contact_url': (is_valid_url, None, None),
@@ -52,7 +54,8 @@ OPTIONAL_FIELD_VALIDATION_RULES = {'originator_contact_fax': (is_valid_phone, No
 CONDITIONAL_SET_LIMITS = {'originator_contact': (3, 'One of [originator_contact_org_name, originator_contact_person_name, originator_contact_position_name] must be populated.'),
                           'originator_contact_method': (2, 'One of [originator_contact_email, originator_contact_phone] must be populated.'),
                           'distributor_contact': (3, 'One of [distributor_contact_org_name, distributor_contact_person_name, distributor_contact_position_name] must be populated.'),
-                          'distributor_contact_method': (2, 'One of [distributor_contact_email, distributor_contact_phone] must be populated.')}
+                          'distributor_contact_method': (2, 'One of [distributor_contact_email, distributor_contact_phone] must be populated.'),
+			  'resource_url_method':(2, 'One of [resource_url, resource_access_instruction] must be populated.')}
 def validate_fields(reader):
     report = list()
     
