@@ -3,10 +3,6 @@ import uuid
 REQUIRED_FIELDS = ['title',
                    'description',
                    'publication_date',
-                   'north_bounding_latitude',
-                   'south_bounding_latitude',
-                   'east_bounding_longitude',
-                   'west_bounding_longitude',
                    'metadata_contact_org_name',
                    'metadata_contact_email',
                    'metadata_uuid',]
@@ -57,7 +53,11 @@ OPTIONAL_FIELDS = ['resource_type',
                    'metadata_contact_phone',
                    'metadata_contact_fax',
                    'metadata_contact_url',
-                   'related_resource']
+                   'related_resource',
+                   'north_bounding_latitude',
+                   'south_bounding_latitude',
+                   'east_bounding_longitude',
+                   'west_bounding_longitude',]
 
 OPTIONAL_ONE_OF_FIELDS = [['datum_elevation', 'surface_elevation'],
                           ['extent_maximum', 'interval_depth_top'],

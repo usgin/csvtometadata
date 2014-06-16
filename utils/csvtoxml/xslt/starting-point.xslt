@@ -78,12 +78,13 @@
 				</gco:DateTime>
 			</gmd:dateStamp>
 			<gmd:metadataStandardName>
-				<gco:CharacterString>ISO-NAP-USGIN</gco:CharacterString>
+				<gco:CharacterString>ISO-USGIN</gco:CharacterString>
 			</gmd:metadataStandardName>
 			<gmd:metadataStandardVersion>
-				<gco:CharacterString>1.1.4</gco:CharacterString>
+				<gco:CharacterString>1.2</gco:CharacterString>
 			</gmd:metadataStandardVersion>
-			<xsl:apply-templates select="resource_id"/>
+			<!-- for now, no dataSetURI-->
+			<!--<xsl:apply-templates select="resource_id"/>-->
 			<gmd:identificationInfo>
 				<gmd:MD_DataIdentification>
 					<gmd:citation>
@@ -279,7 +280,7 @@
 							</gmd:MD_Keywords>
 						</gmd:descriptiveKeywords>
 					</xsl:if>
-					<xsl:apply-templates select="related_resource"/>
+					<!--<xsl:apply-templates select="related_resource"/> -->
 					<xsl:apply-templates select="resource_languages"/>
 					<gmd:topicCategory>
 						<gmd:MD_TopicCategoryCode>geoscientificInformation</gmd:MD_TopicCategoryCode>
@@ -288,9 +289,8 @@
 					
 					
 					
-					
-					
-					
+					<xsl:choose>
+						<xsl:when test="string-length(string(west_bounding_longitude))>1">
 					<gmd:extent>
 						<gmd:EX_Extent>
 							<gmd:geographicElement>
@@ -315,6 +315,17 @@
 						</gmd:EX_Extent>
 					</gmd:extent>
 					
+							</xsl:when>
+				
+					<xsl:otherwise>
+								<gmd:extent>
+						<gmd:EX_Extent>
+							<gmd:geographicElement>
+					</gmd:geographicElement>
+						</gmd:EX_Extent>
+					</gmd:extent>
+					</xsl:otherwise>
+						</xsl:choose>
 					
 					<xsl:apply-templates select="temporal_start_date"/>
 					<xsl:if test="interval_depth_bottom and (string-length(string(interval_depth_bottom))>0)">
@@ -332,7 +343,7 @@
 					</xsl:if>
 				</gmd:MD_DataIdentification>
 			</gmd:identificationInfo>
-			<xsl:if test="(distributor_contact_person_name != '') or (distributor_contact_org_name != '') or (distributor_contact_position_name != '') or (resource_url != '')">
+		<!--	<xsl:if test="(distributor_contact_person_name != '') or (distributor_contact_org_name != '') or (distributor_contact_position_name != '') or (resource_url != '')"> -->
 				<gmd:distributionInfo>
 					<gmd:MD_Distribution>
 						<xsl:if test="(distributor_contact_person_name != '') or (distributor_contact_org_name != '') or (distributor_contact_position_name != '') or (resource_access_instructions != '')">
@@ -399,7 +410,7 @@
 						<xsl:apply-templates select="//resource_url"/>
 					</gmd:MD_Distribution>
 				</gmd:distributionInfo>
-			</xsl:if>
+		<!--	</xsl:if>-->
 <!--			<xsl:if test="(resource_quality_statement != '') or (resource_lineage_statement != '')">-->
 				<gmd:dataQualityInfo>
 					<gmd:DQ_DataQuality>
@@ -438,7 +449,7 @@
 									<gmd:LI_Lineage>
 										<gmd:statement>
 											<gco:CharacterString>
-												<xsl:value-of select="."/>
+												<xsl:value-of select="//resource_lineage_statement"/>
 											</gco:CharacterString>
 										</gmd:statement>
 									</gmd:LI_Lineage>
@@ -785,9 +796,9 @@
 			</gco:CharacterString>
 		</gmd:keyword>
 	</xsl:template>
-	<xsl:template match="related_resource">
-		<gmd:aggregationInfo>
-			<!-- (?-C) MD_AggregateInformation requires either aggregateDataSetName/CI_Citation or aggregateDataSetIdentifier/MD_Identifier.   -->
+	<!--<xsl:template match="related_resource"> -->
+		<!--<gmd:aggregationInfo>
+		(?-C) MD_AggregateInformation requires either aggregateDataSetName/CI_Citation or aggregateDataSetIdentifier/MD_Identifier. 
 			<gmd:MD_AggregateInformation>
 				<gmd:aggregateDataSetIdentifier>
 					<gmd:MD_Identifier>
@@ -798,15 +809,15 @@
 						</gmd:code>
 					</gmd:MD_Identifier>
 				</gmd:aggregateDataSetIdentifier>
-				<!-- (M-M) Association Type is mandatory.. -->
+				(M-M) Association Type is mandatory..
 				<gmd:associationType>
 					<gmd:DS_AssociationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#DS_AssociationTypeCode" codeListValue="crossReference">
 						<xsl:text>crossReference</xsl:text>
 					</gmd:DS_AssociationTypeCode>
 				</gmd:associationType>
 			</gmd:MD_AggregateInformation>
-		</gmd:aggregationInfo>
-	</xsl:template>
+		</gmd:aggregationInfo> -->
+	<!--</xsl:template> -->
 	<xsl:template match="resource_languages">
 		<gmd:language>
 			<gco:CharacterString>

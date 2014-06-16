@@ -16,10 +16,6 @@ This includes optional fields. If the field is used, then it does need to be val
 FIELD_VALIDATION_RULES = {'title': (is_valid_something, None, None),
                           'description': (is_valid_something, None, None),
                           'publication_date': (is_valid_date, fix_date, None),
-                          'north_bounding_latitude': (is_valid_latitude, None, None),
-                          'south_bounding_latitude': (is_valid_latitude, None, None),
-                          'east_bounding_longitude': (is_valid_longitude, None, None),
-                          'west_bounding_longitude': (is_valid_longitude, None, None),
                           'metadata_contact_org_name': (is_valid_something, None, None),
                           'metadata_contact_email': (is_valid_email, None, None),
                           'originator_contact_org_name': (is_valid_something, None, 'originator_contact'), 
@@ -31,6 +27,7 @@ FIELD_VALIDATION_RULES = {'title': (is_valid_something, None, None),
                           'metadata_date': (is_valid_date, input_todays_date, None),
                           'resource_url': (is_valid_url, None, 'resource_url_method'),
 			  'resource_access_instruction': (is_valid_something, None, 'resource_url_method'),}
+                          
 
 OPTIONAL_FIELD_VALIDATION_RULES = {'originator_contact_fax': (is_valid_phone, None, None),
                                    'originator_contact_url': (is_valid_url, None, None),
@@ -49,7 +46,11 @@ OPTIONAL_FIELD_VALIDATION_RULES = {'originator_contact_fax': (is_valid_phone, No
                                    'metadata_language': (is_valid_language_code, fix_language_code, None),
                                    'metadata_contact_phone': (is_valid_phone, None, None),
                                    'metadata_contact_fax': (is_valid_phone, None, None),
-                                   'metadata_contact_url': (is_valid_url, None, None),}
+                                   'metadata_contact_url': (is_valid_url, None, None),
+                                   'north_bounding_latitude': (is_valid_latitude, None, None),
+                                   'south_bounding_latitude': (is_valid_latitude, None, None),
+                                   'east_bounding_longitude': (is_valid_longitude, None, None),
+                                   'west_bounding_longitude': (is_valid_longitude, None, None),}
 
 CONDITIONAL_SET_LIMITS = {'originator_contact': (3, 'One of [originator_contact_org_name, originator_contact_person_name, originator_contact_position_name] must be populated.'),
                           'originator_contact_method': (2, 'One of [originator_contact_email, originator_contact_phone] must be populated.'),
